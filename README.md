@@ -66,6 +66,14 @@ Below is the learning curve showing total reward per episode:
 ![Learning Curve](learning_curve.png)
 
 ---
+## Environment
+
+Below is the 5x5 grid environment used in training:
+
+![Grid Environment](images/grid.png)
+
+---
+
 
 ## 🛠 Tech Stack
 

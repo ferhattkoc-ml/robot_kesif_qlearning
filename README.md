@@ -70,7 +70,7 @@ Below is the learning curve showing total reward per episode:
 
 Below is the 5x5 grid environment used in training:
 
-![Grid Environment](images/grid.png)
+![Grid Environment](images:grid.png)
 
 ---
 

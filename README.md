@@ -1,56 +1,87 @@
-# 🤖 Q-Learning ile Robot Keşfi (Gridworld Navigation)
+# 🤖 Autonomous Robot Navigation with Q-Learning
 
-Bu proje, 5x5 boyutunda bir ızgara (grid) ortamında bulunan bir robotun, engellere çarpmadan başlangıç noktasından hedefe ulaşmayı kendi kendine öğrendiği bir Pekiştirmeli Öğrenme (Reinforcement Learning) uygulamasıdır. Ajan, ortamı keşfetmek ve en ideal yolu bulmak için **Q-Learning** algoritmasını kullanmaktadır.
+This project demonstrates a Reinforcement Learning (RL) implementation where a Q-Learning agent learns to navigate a 5x5 GridWorld environment while avoiding obstacles and reaching a goal state.
 
-## 📌 Proje Detayları ve Ortam (Environment)
+The agent starts with full exploration and gradually learns the optimal path using Bellman Equation-based Q-table updates.
 
-* **Durum Uzayı (State Space):** 5x5 Grid (Toplam 25 durum)
-* **Eylem Uzayı (Action Space):** 4 (Yukarı, Aşağı, Sağa, Sola)
-* **Başlangıç Noktası:** `(0, 0)`
-* **Hedef Noktası:** `(4, 4)`
-* **Engeller:** `(0,1), (1,3), (3,1), (3,3), (4,1)`
+---
 
-### 🏆 Ödül Mekanizması (Reward System)
-Ajanın öğrenme sürecini yönlendiren ödül sistemi şu şekildedir:
-* **Hedefe Ulaşma:** `+10` puan
-* **Engele Çarpma:** `-3` puan
-* **Standart Adım:** `-0.1` puan
+## 📌 Environment Overview
 
-## 🧠 Kullanılan Algoritma ve Parametreler
+- **Grid Size:** 5x5 (25 states)
+- **Action Space:** 4 actions (Up, Down, Left, Right)
+- **Start State:** (0, 0)
+- **Goal State:** (4, 4)
+- **Obstacles:** (0,1), (1,3), (3,1), (3,3), (4,1)
 
-Ajan, deneyimlerinden öğrenmek için model-free bir algoritma olan Q-Learning'i kullanır. Keşfetme ve sömürme (exploration vs. exploitation) dengesi, azalan epsilon (epsilon-decay) stratejisi ile sağlanmıştır.
+---
 
-* **Öğrenme Oranı (Alpha - $\alpha$):** 0.1
-* **İndirim Faktörü (Gamma - $\gamma$):** 0.99
-* **Başlangıç Epsilon Değeri:** 1.0
-* **Epsilon Azalma Oranı (Decay):** 0.995
+## 🏆 Reward Mechanism
 
-### 🧮 Q-Tablosu Güncelleme Kuralı
-Ajan, her adımda Q-değerlerini aşağıdaki Bellman Denklemi temelli matematiksel formüle göre günceller:
+| Event | Reward |
+|--------|--------|
+| Reaching Goal | +10 |
+| Hitting Obstacle | -3 |
+| Standard Move | -0.1 |
 
-$$Q(s,a) \leftarrow Q(s,a) + \alpha [r + \gamma \max_{a'} Q(s',a') - Q(s,a)]$$
+A small step penalty encourages the agent to find shorter paths.
 
-* $s$: Mevcut durum
-* $a$: Seçilen eylem
-* $r$: Alınan ödül
-* $s'$: Sonraki durum
-* $\alpha$: Öğrenme oranı
-* $\gamma$: İndirim faktörü
+---
 
-## 📈 Sonuçlar ve Öğrenme Eğrisi (Learning Curve)
+## 🧠 Q-Learning Configuration
 
-Ajan ilk bölümlerde (episodes) ortamı tamamen rastgele keşfederken (exploration) ve sık sık engellere çarparken, bölümler ilerledikçe Q-tablosunu güncelleyerek hedefe giden optimal yolu öğrenmiştir (exploitation). 
+- **Learning Rate (α):** 0.1  
+- **Discount Factor (γ):** 0.99  
+- **Initial Epsilon:** 1.0  
+- **Epsilon Decay:** 0.995  
+- **Minimum Epsilon:** 0.1  
 
-Aşağıdaki grafik, ajanın eğitim süresi boyunca her bölümde topladığı toplam ödül miktarını göstermektedir:
+Exploration vs Exploitation is handled using an epsilon-greedy strategy with decay.
 
-![Öğrenme Eğrisi](learning_curve.png) 
+---
 
-*(Not: Bu grafiği elde etmek için `matplotlib` kütüphanesi kullanılmıştır.)*
+## 🧮 Q-Update Rule
 
-## 🚀 Kurulum ve Kullanım
+The Q-table is updated using the Bellman Equation:
 
-Projeyi kendi bilgisayarında çalıştırmak için aşağıdaki adımları izleyebilirsin:
+\[
+Q(s,a) \leftarrow Q(s,a) + \alpha [r + \gamma \max_{a'} Q(s',a') - Q(s,a)]
+\]
 
-1. Repoyu klonlayın:
-   ```bash
-   git clone [https://github.com/ferhattkoc-ml/robot-kesif-qlearning.git](https://github.com/ferhattkoc-ml/robot-kesif-qlearning.git)
+Where:
+
+- \(s\): current state  
+- \(a\): selected action  
+- \(r\): reward received  
+- \(s'\): next state  
+- \(\alpha\): learning rate  
+- \(γ\): discount factor  
+
+---
+
+## 📈 Learning Performance
+
+As training progresses, the agent transitions from random exploration to optimized path selection.
+
+Below is the learning curve showing total reward per episode:
+
+![Learning Curve](learning_curve.png)
+
+---
+
+## 🛠 Tech Stack
+
+- Python
+- NumPy
+- Matplotlib
+
+---
+
+## ▶️ Run the Project
+
+Clone the repository:
+
+```bash
+git clone https://github.com/ferhattkoc-ml/robot-kesif-qlearning.git
+cd robot-kesif-qlearning
+python robot_kesif.py

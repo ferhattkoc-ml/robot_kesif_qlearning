@@ -44,9 +44,7 @@ Exploration vs Exploitation is handled using an epsilon-greedy strategy with dec
 
 The Q-table is updated using the Bellman Equation:
 
-\[
-Q(s,a) \leftarrow Q(s,a) + \alpha [r + \gamma \max_{a'} Q(s',a') - Q(s,a)]
-\]
+$$Q(s,a) \leftarrow Q(s,a) + \alpha [r + \gamma \max_{a'} Q(s',a') - Q(s,a)]$$
 
 Where:
 

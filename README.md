@@ -1,76 +1,157 @@
+<div align="center">
+
 # 🤖 Autonomous Robot Navigation with Q-Learning
 
-This project demonstrates a Reinforcement Learning (RL) implementation where a Q-Learning agent learns to navigate a 5x5 GridWorld environment while avoiding obstacles and reaching a target state. 
+**GridWorld'de Pekiştirmeli Öğrenme ile Otonom Rota Bulma**
 
-The agent starts with full exploration and gradually learns the optimal path using Bellman Equation-based Q-table updates.
+[![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org)
+[![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge&logo=python&logoColor=white)](https://matplotlib.org)
+[![Reinforcement Learning](https://img.shields.io/badge/RL-Q%20Learning-FF6F00?style=for-the-badge&logo=python&logoColor=white)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-## 📌 Environment Overview
+**5×5 GridWorld · 4 Aksiyon · 2 Engel · Bellman Güncellemesi ile Optimum Politika**
 
-*   **Grid Size:** 5x5 (25 states)
-*   **Action Space:** 4 actions (Up, Down, Left, Right)
-*   **Start State:** `(0, 0)`
-*   **Goal State:** `(4, 4)`
-*   **Obstacles:** `(0,1), (1,3), (3,1), (3,3), (4,1)`
+</div>
 
-## 🏆 Reward Mechanism
+---
 
-A small step penalty encourages the agent to find the shortest possible path.
+## 📌 Proje Hakkında
 
-| Event | Reward |
-| :--- | :--- |
-| **Reaching Goal** | `+10` |
-| **Hitting Obstacle** | `-3` |
-| **Standard Move** | `-0.1` |
+Bu proje, bir **Q-Learning** ajanının 5×5 GridWorld ortamında engellerden kaçınarak hedef duruma ulaşmayı öğrenmesini simüle eder. Ajan tam keşifle başlar ve **Bellman Denklemi** tabanlı Q-tablosu güncellemeleriyle kademeli olarak optimum rotayı keşfeder.
 
-## 🧠 Q-Learning Configuration
+---
 
-Exploration vs Exploitation is handled using an $\epsilon$-greedy strategy with decay.
+## 🗺️ Ortam Tasarımı
 
-*   **Learning Rate ($\alpha$):** 0.1
-*   **Discount Factor ($\gamma$):** 0.99
-*   **Initial Epsilon ($\epsilon$):** 1.0
-*   **Epsilon Decay:** 0.995
-*   **Minimum Epsilon:** 0.1
+| Parametre | Değer |
+|-----------|-------|
+| **Grid Boyutu** | 5×5 (25 durum) |
+| **Aksiyon Uzayı** | 4 (Yukarı, Aşağı, Sol, Sağ) |
+| **Başlangıç** | (0, 0) |
+| **Hedef** | (4, 4) |
+| **Engeller** | (0,1), (1,3), (3,1), (3,3), (4,1) |
 
-## 🧮 Q-Update Rule
+### GridWorld Görseli
 
-The Q-table is updated using the Bellman Equation:
-
-$$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]$$
-
-**Where:**
-*   $s$: current state
-*   $a$: selected action
-*   $r$: reward received
-*   $s'$: next state
-*   $\alpha$: learning rate
-*   $\gamma$: discount factor
-
-## 📈 Learning Performance & Environment
-
-As training progresses, the agent transitions from random exploration to optimized path selection.
-
-*(Note for Ferhat: Add your learning curve and environment grid images below by replacing the links)*
-
-**Total Reward per Episode:**
-![Learning Curve](learning_curve.png)
-
-**5x5 Grid Environment:**
 ![Grid Environment](images_grid.png)
 
-## 🛠 Tech Stack
+---
 
-*   Python
-*   NumPy
-*   Matplotlib
+## 🏆 Ödül Mekanizması
 
-## ▶️ Run the Project
+Küçük adım cezaları, ajanı mümkün olan en kısa yolu bulmaya iter.
 
-Clone the repository and run the script:
+| Olay | Ödül |
+|------|------|
+| 🎯 **Hedefe Ulaşma** | **+10** |
+| 🧱 **Engele Çarpma** | −3 |
+| 👣 **Standart Hareket** | −0.1 |
+
+---
+
+## 🧠 Q-Learning Konfigürasyonu
+
+Keşif (exploration) ve sömürü (exploitation) dengesi **ε-greedy** stratejisi ile yönetilir.
+
+| Hiperparametre | Değer | Açıklama |
+|----------------|-------|----------|
+| **α (Learning Rate)** | 0.1 | Yeni bilginin eski bilginin yerini alma oranı |
+| **γ (Discount Factor)** | 0.99 | Gelecek ödüllerin bugünkü değere indirgenme katsayısı |
+| **ε (Initial Epsilon)** | 1.0 | Başlangıçta tam keşif |
+| **ε Decay** | 0.995 | Her episodda epsilon azalma çarpanı |
+| **ε (Minimum)** | 0.1 | Minimum keşif oranı |
+
+---
+
+## 🧮 Q-Update Rule (Bellman Denklemi)
+
+```
+Q(s, a) ← Q(s, a) + α [ r + γ · maxₐ' Q(s', a') − Q(s, a) ]
+```
+
+| Değişken | Anlamı |
+|----------|--------|
+| `s` | Mevcut durum |
+| `a` | Seçilen aksiyon |
+| `r` | Alınan ödül |
+| `s'` | Bir sonraki durum |
+| `α` | Öğrenme oranı |
+| `γ` | İndirim faktörü |
+
+---
+
+## 📈 Öğrenme Performansı
+
+Eğitim ilerledikçe ajan rastgele keşiften optimize yol seçimine geçer.
+
+![Learning Curve](learning_curve.png)
+
+---
+
+## ⚙️ Kullanım
 
 ```bash
-git clone [https://github.com/ferhattkoc-ml/robot-kesif-qlearning.git](https://github.com/ferhattkoc-ml/robot-kesif-qlearning.git)
-cd robot-kesif-qlearning
+# 1. Depoyu klonla
+git clone https://github.com/ferhattkoc-ml/robot_kesif_qlearning.git
+cd robot_kesif_qlearning
+
+# 2. Sanal ortam oluştur (opsiyonel)
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+
+# 3. Bağımlılıkları yükle
+pip install -r requirements.txt
+
+# 4. Çalıştır
 python robot_kesif.py
+```
 
+---
 
+## 🛠️ Tech Stack
+
+| Kategori | Teknolojiler |
+|----------|-------------|
+| **Dil** | Python 3.8+ |
+| **Hesaplama** | NumPy |
+| **Görselleştirme** | Matplotlib |
+| **RL Algoritması** | Q-Learning (tabular, ε-greedy) |
+
+---
+
+## 📂 Proje Yapısı
+
+```
+robot_kesif_qlearning/
+├── robot_kesif.py                  # Ana Q-Learning uygulaması
+├── images_grid.png                 # GridWorld ortam görseli
+├── learning_curve.png              # Öğrenme eğrisi grafiği
+├── requirements.txt                # Bağımlılıklar
+└── README.md                       # Bu dosya
+```
+
+---
+
+## 🧠 Öğrenilen Kavramlar
+
+- ✅ **Q-Learning** — Model-free off-policy RL algoritması
+- ✅ **Bellman Denklemi** — Optimal Q-değeri güncelleme
+- ✅ **ε-greedy** — Keşif/sömürü dengesi stratejisi
+- ✅ **GridWorld** — Tabular RL için temel benchmark ortamı
+- ✅ **Policy Learning** — Durumdan aksiyona optimum haritalama
+
+---
+
+## 👤 Yazar
+
+**Ferhat Koç** · [GitHub](https://github.com/ferhattkoc-ml) · [LinkedIn](https://linkedin.com/in/ferhattkocc/)
+
+> ⭐ Bu projeyi beğendiyseniz bir yıldız bırakmayı unutmayın!
+
+---
+
+<div align="center">
+  <sub>Built with ❤️ by Ferhat Koç</sub>
+</div>
